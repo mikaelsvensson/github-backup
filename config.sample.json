@@ -1,0 +1,10 @@
+{
+    "GithubUsername": "your github username here",
+    "GithubToken": "your personal access token here",
+    "LocalArchiveTargetDir": "C:\\Users\\YourUserName\\Desktop\\GithubArchives",
+    "LocalSourceDir": "C:\\Users\\YourUserName\\Desktop\\GithubBackups",
+    "BaseApiUris": [
+        "https://api.github.com/user/repos?affiliation=owner",
+        "https://api.github.com/orgs/some_org_you_have_access_to/repos?type=all"
+    ]
+}
