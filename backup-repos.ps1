@@ -43,12 +43,16 @@ Foreach ($repository in $repositories) {
      
     $localPath = $githubPath.replace("/", ".")
     $repoLocalSourceDir = "$LocalSourceDir\$localPath"
-    $repoLocalArchiveTargetDir = "$LocalArchiveTargetDir\$localPath.zip"
     If (Test-Path -Path $repoLocalSourceDir) {
         git -C $repoLocalSourceDir pull
     }
     else {
         git clone "https://$GithubAccessToken@github.com/$githubPath.git" $repoLocalSourceDir
     }
-    Get-ChildItem -Path $repoLocalSourceDir -Force | Compress-Archive -Force -DestinationPath $repoLocalArchiveTargetDir
+    $commitId = git -C $repoLocalSourceDir rev-parse --short HEAD
+    $repoLocalArchiveTargetDir = "$LocalArchiveTargetDir\$localPath.$commitId.zip"
+    If (-Not (Test-Path -Path $repoLocalArchiveTargetDir)) {
+        Remove-Item "$LocalArchiveTargetDir\$localPath.*.zip"
+        Get-ChildItem -Path $repoLocalSourceDir -Force | Compress-Archive -Force -DestinationPath $repoLocalArchiveTargetDir
+    }
 }
